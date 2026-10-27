@@ -7,13 +7,15 @@ require_once __DIR__ . '/../app/Core/Database.php';
 require_once __DIR__ . '/../app/Core/Request.php';
 require_once __DIR__ . '/../app/Views/JsonView.php';
 require_once __DIR__ . '/../app/Models/Eletronico.php';
+require_once __DIR__ . '/../app/Models/Estoque.php';
 require_once __DIR__ . '/../app/Controllers/EletronicoController.php';
+require_once __DIR__ . '/../app/Controllers/EstoqueController.php';
 
-// Importação de todas as classes com os namespaces corretos
 use App\Core\Database;
 use App\Core\Request;
 use App\Views\JsonView;
 use App\Controllers\EletronicoController;
+use App\Controllers\EstoqueController;
 
 try {
     $pdo = Database::connection();
@@ -44,6 +46,31 @@ switch ($chaveRota) {
     case 'GET /eletronico':
         $controller = new EletronicoController($pdo);
         $controller->listar();
+        break;
+
+    case 'POST /eletronico':
+        $controller = new EletronicoController($pdo);
+        $controller->criar();
+        break;
+
+    case 'PUT /eletronico':
+        $controller = new EletronicoController($pdo);
+        $controller->atualizar();
+        break;
+
+    case 'DELETE /eletronico':
+        $controller = new EletronicoController($pdo);
+        $controller->excluir();
+        break;
+
+    case 'PUT /estoque':
+        $controller = new EstoqueController($pdo);
+        $controller->movimentar();
+        break;
+
+    case 'GET /movimentacoes':
+        $controller = new EstoqueController($pdo);
+        $controller->historico();
         break;
 
     default:
