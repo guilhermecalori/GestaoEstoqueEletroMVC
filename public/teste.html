@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel de Teste - Gestão de Estoque</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; background-color: #f4f4f9; }
+        h1, h2 { color: #333; }
+        button { padding: 10px 15px; margin-bottom: 20px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; background: white; margin-bottom: 30px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #007bff; color: white; }
+    </style>
+</head>
+<body>
+
+    <h1>Painel de Teste - Gestão de Estoque</h1>
+
+    <h2>Lista de Eletrónicos</h2>
+    <button onclick="carregarEletronicos()">Atualizar Eletrónicos</button>
+    <table id="tabela-eletronicos">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Quantidade em Estoque</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h2>Histórico de Movimentações</h2>
+    <button onclick="carregarMovimentacoes()">Atualizar Histórico</button>
+    <table id="tabela-movimentacoes">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Produto</th>
+                <th>Tipo</th>
+                <th>Qtd</th>
+                <th>Saldo Anterior</th>
+                <th>Saldo Posterior</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        const API_BASE = 'http://localhost/GestaoEstoqueEletroMVC/public';
+
+        async function carregarEletronicos() {
+            const res = await fetch(`${API_BASE}/eletronico`);
+            const json = await res.json();
+            const tbody = document.querySelector('#tabela-eletronicos tbody');
+            tbody.innerHTML = '';
+            
+            json.dados.forEach(p => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${p.id_eletronico}</td>
+                        <td>${p.nome}</td>
+                        <td>R$ ${p.preco}</td>
+                        <td>${p.quantidade_atual ?? 0}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function carregarMovimentacoes() {
+            const res = await fetch(`${API_BASE}/movimentacoes`);
+            const json = await res.json();
+            const tbody = document.querySelector('#tabela-movimentacoes tbody');
+            tbody.innerHTML = '';
+            
+            json.dados.forEach(m => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${m.id_movimentacao}</td>
+                        <td>${m.eletronico_nome}</td>
+                        <td>${m.tipo}</td>
+                        <td>${m.quantidade}</td>
+                        <td>${m.saldo_anterior}</td>
+                        <td>${m.saldo_posterior}</td>
+                        <td>${m.data_movimentacao}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        carregarEletronicos();
+        carregarMovimentacoes();
+    </script>
+</body>
+</html>

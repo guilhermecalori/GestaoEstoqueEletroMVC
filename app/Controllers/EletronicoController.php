@@ -30,7 +30,7 @@ final class EletronicoController {
         } catch (Exception $e) {
             JsonView::render([
                 'erro' => true,
-                'mensagem' => 'Erro interno ao listar os eletrónicos.'
+                'mensagem' => 'Erro interno ao listar os eletrónicos: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -111,13 +111,13 @@ final class EletronicoController {
 
             JsonView::render([
                 'erro' => true,
-                'mensagem' => 'Erro de banco de dados ao cadastrar eletrónico.'
+                'mensagem' => 'SQL Error: ' . $e->getMessage()
             ], 500);
 
         } catch (Exception $e) {
             JsonView::render([
                 'erro' => true,
-                'mensagem' => 'Erro interno ao cadastrar eletrónico.'
+                'mensagem' => 'Exception Error: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -203,13 +203,13 @@ final class EletronicoController {
 
             JsonView::render([
                 'erro' => true,
-                'mensagem' => 'Erro de banco de dados ao atualizar eletrónico.'
+                'mensagem' => 'SQL Error: ' . $e->getMessage()
             ], 500);
 
         } catch (Exception $e) {
             JsonView::render([
                 'erro' => true,
-                'mensagem' => 'Erro interno ao atualizar eletrónico.'
+                'mensagem' => 'Exception Error: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -245,7 +245,7 @@ final class EletronicoController {
         } catch (Exception $e) {
             JsonView::render([
                 'erro' => true,
-                'mensagem' => 'Erro interno ao inativar o eletrónico.'
+                'mensagem' => 'Exception Error: ' . $e->getMessage()
             ], 500);
         }
     }
